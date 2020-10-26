@@ -7,11 +7,16 @@
 
 import SwiftUI
 
-struct DateCell1: View {
-    @State private var isShown = false
-    let date: Date
+public struct DateCell1: View {
     
-    var body: some View {
+    public init(date: Date) {
+        self.date = date
+    }
+    
+    @State private var isShown = false
+    private let date: Date
+    
+    public var body: some View {
         Group {
             if isShown {
                 Text(date.day)
