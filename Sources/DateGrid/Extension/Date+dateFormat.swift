@@ -8,14 +8,14 @@
 import Foundation
 
 extension Date {
-    var day: String {
+    public var day: String {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.dateFormat = "dd"
         return formatter.string(from: self)
     }
     
-   static func getDate(from dateString: String) -> Date? {
+    public static func getDate(from dateString: String) -> Date? {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy MM dd"
         return formatter.date(from: dateString)

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DateGrid<DateView>: View where DateView: View {
+public struct DateGrid<DateView>: View where DateView: View {
     
     /// DateStack view
     /// - Parameters:
