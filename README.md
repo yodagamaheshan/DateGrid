@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://github.com/yodagamaheshan/DateGrid/blob/main/Blue%20Mountain%20Construction%20Logo-2.png?raw=true" alt="Kingfisher" title="Kingfisher" width="557"/>
+<img src="https://github.com/yodagamaheshan/DateGrid/blob/main/banner.png?raw=true" alt="DateGrid" title="DateGrid" width="557"/>
 </p>
 
 <p align="center">
