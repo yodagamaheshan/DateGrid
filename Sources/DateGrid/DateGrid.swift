@@ -131,7 +131,7 @@ struct CalendarView_Previews: PreviewProvider {
                     .padding(8)
                     .background(Color.blue)
                     .cornerRadius(8)
-                    .padding([.bottom], /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
+                    .padding([.bottom], 10)
             }
         }
         
