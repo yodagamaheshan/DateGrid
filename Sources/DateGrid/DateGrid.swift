@@ -66,37 +66,34 @@ public struct DateGrid<DateView>: View where DateView: View {
                 
             } else {
                 
-                VStack {
+                TabView(selection: $selectedMonth) {
                     
-                    TabView(selection: $selectedMonth) {
+                    ForEach(viewModel.weeks, id: \.self) { week in
                         
-                        ForEach(viewModel.weeks, id: \.self) { week in
+                        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: numberOfDayasInAWeek)) {
                             
-                            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: numberOfDayasInAWeek)) {
-                                
-                                ForEach(viewModel.days(forWeek: week), id: \.self) { date in
-                                    if viewModel.calendar.isDate(date, equalTo: week, toGranularity: .month) {
-                                        content(date).id(date)
-                                            .background(
-                                                GeometryReader(content: { (proxy: GeometryProxy) in
-                                                    Color.clear
-                                                        .preference(key: MyPreferenceKey.self, value: MyPreferenceData(size: proxy.size))
-                                                }))
-                                    } else {
-                                        content(date)
-                                            .opacity(0.5)
-                                    }
+                            ForEach(viewModel.days(forWeek: week), id: \.self) { date in
+                                if viewModel.calendar.isDate(date, equalTo: week, toGranularity: .month) {
+                                    content(date).id(date)
+                                        .background(
+                                            GeometryReader(content: { (proxy: GeometryProxy) in
+                                                Color.clear
+                                                    .preference(key: MyPreferenceKey.self, value: MyPreferenceData(size: proxy.size))
+                                            }))
+                                } else {
+                                    content(date)
+                                        .opacity(0.5)
                                 }
                             }
-                            .onPreferenceChange(MyPreferenceKey.self, perform: { value in
-                                calculatedCellSize = value.size
-                            })
-                            .tag(week)
                         }
+                        .onPreferenceChange(MyPreferenceKey.self, perform: { value in
+                            calculatedCellSize = value.size
+                        })
+                        .tag(week)
                     }
-                    .frame(height: weekContentHeight, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                 }
+                .frame(height: weekContentHeight, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             }
         }
     }
