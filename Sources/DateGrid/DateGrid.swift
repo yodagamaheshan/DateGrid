@@ -115,15 +115,7 @@ struct CalendarView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             Text(selectedMonthDate.description)
-            HStack {
-                ForEach(Calendar.current.veryShortWeekdaySymbols, id: \.self) { item in
-                    Spacer()
-                    Text(item)
-                        .bold()
-                    Spacer()
-                    
-                }
-            }
+            WeekDaySymbols()
             
             DateGrid(interval: .init(start: Date.getDate(from: "2020 01 11")!, end: Date.getDate(from: "2020 12 11")!), selectedMonth: $selectedMonthDate, mode: .month(estimateHeight: 400)) { date in
                 
@@ -155,4 +147,18 @@ fileprivate struct MyPreferenceKey: PreferenceKey {
 fileprivate struct MyPreferenceData: Equatable {
     let size: CGSize
     //you can give any name to this variable as usual.
+}
+
+struct WeekDaySymbols: View {
+    var body: some View {
+        HStack {
+            ForEach(Calendar.current.veryShortWeekdaySymbols, id: \.self) { item in
+                Spacer()
+                Text(item)
+                    .bold()
+                Spacer()
+                
+            }
+        }
+    }
 }
