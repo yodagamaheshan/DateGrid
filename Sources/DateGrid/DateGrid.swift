@@ -119,11 +119,7 @@ struct CalendarView_Previews: PreviewProvider {
             
             DateGrid(interval: .init(start: Date.getDate(from: "2020 01 11")!, end: Date.getDate(from: "2020 12 11")!), selectedMonth: $selectedMonthDate, mode: .month(estimateHeight: 400)) { date in
                 
-                Text(date.day)
-                    .padding(8)
-                    .background(Color.blue)
-                    .cornerRadius(8)
-                    .padding([.bottom], 10)
+                NoramalDayCell(date: date)
             }
         }
         
