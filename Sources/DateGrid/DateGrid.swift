@@ -148,17 +148,3 @@ fileprivate struct MyPreferenceData: Equatable {
     let size: CGSize
     //you can give any name to this variable as usual.
 }
-
-struct WeekDaySymbols: View {
-    var body: some View {
-        HStack {
-            ForEach(Calendar.current.veryShortWeekdaySymbols, id: \.self) { item in
-                Spacer()
-                Text(item)
-                    .bold()
-                Spacer()
-                
-            }
-        }
-    }
-}
