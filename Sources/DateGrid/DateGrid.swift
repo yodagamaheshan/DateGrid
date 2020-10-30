@@ -61,8 +61,6 @@ public struct DateGrid<DateView>: View where DateView: View {
                         }
                     }
                 }
-                .frame(height: monthContentHeight, alignment: .center)
-                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                 
             } else {
                 
@@ -92,16 +90,17 @@ public struct DateGrid<DateView>: View where DateView: View {
                         .tag(week)
                     }
                 }
-                .frame(height: weekContentHeight, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             }
         }
+        .frame(height: tabViewHeight, alignment: .center)
+        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
     }
     
     //MARK: constant and supportive methods
-    let numberOfDayasInAWeek = 7
-    var monthContentHeight: CGFloat {
-        return max(viewModel.mode.estimateHeight, calculatedCellSize.height * 6)
+    private let numberOfDayasInAWeek = 7
+    private var tabViewHeight: CGFloat {
+        let calculatedTabViewHeightByCalculatedCellHeight = viewModel.mode.calculatedheight(calculatedCellSize.height)
+        return max(viewModel.mode.estimateHeight, calculatedTabViewHeightByCalculatedCellHeight)
     }
     
     var weekContentHeight: CGFloat {
