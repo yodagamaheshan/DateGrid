@@ -8,8 +8,21 @@
 import Foundation
 
 struct DateGridDate {
+    init(date: Date, currentMonth: Date) {
+        self.date = date
+        self.currentMonth = currentMonth
+    }
+    
     let date: Date
-    let dateType: DateGridDateType
+    private var currentMonth: Date
+    var dateType: DateGridDateType {
+        getDateGridDateType(for: date, of: currentMonth)
+    }
+    
+    private func getDateGridDateType(for date: Date, of month: Date) -> DateGridDateType {
+        //TODO: implement
+        return .monthDate
+    }
 }
 
 enum DateGridDateType {
