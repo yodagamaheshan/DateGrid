@@ -19,7 +19,7 @@ class DateGridViewModel {
     var mode: CalenderMode
     
     //total dates belong to month(indate+ outDate) or week
-    var mainDatesOfAPage: [Date] {
+    var monthsOrWeeks: [Date] {
         switch mode {
         case .month(estimateHeight: _):
            return months

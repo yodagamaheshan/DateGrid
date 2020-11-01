@@ -32,14 +32,14 @@ public struct DateGrid<DateView>: View where DateView: View {
                 
                 TabView(selection: $selectedMonth) {
                     
-                    ForEach(viewModel.mainDatesOfAPage, id: \.self) { month in
+                    ForEach(viewModel.monthsOrWeeks, id: \.self) { monthOrWeek in
                         
                         VStack {
                             
                             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: numberOfDayasInAWeek), spacing: 0) {
                                 
-                                ForEach(viewModel.days(for: month), id: \.self) { date in
-                                    if viewModel.calendar.isDate(date, equalTo: month, toGranularity: .month) {
+                                ForEach(viewModel.days(for: monthOrWeek), id: \.self) { date in
+                                    if viewModel.calendar.isDate(date, equalTo: monthOrWeek, toGranularity: .month) {
                                         content(date).id(date)
                                             .background(
                                                 GeometryReader(content: { (proxy: GeometryProxy) in
@@ -55,7 +55,7 @@ public struct DateGrid<DateView>: View where DateView: View {
                             .onPreferenceChange(MyPreferenceKey.self, perform: { value in
                                 calculatedCellSize = value.size
                             })
-                            .tag(month)
+                            .tag(monthOrWeek)
                             //Tab view frame alignment to .Top didnt work dtz y
                             Spacer()
                         }
@@ -66,12 +66,12 @@ public struct DateGrid<DateView>: View where DateView: View {
                 
                 TabView(selection: $selectedMonth) {
                     
-                    ForEach(viewModel.mainDatesOfAPage, id: \.self) { week in
+                    ForEach(viewModel.monthsOrWeeks, id: \.self) { monthOrWeek in
                         
                         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: numberOfDayasInAWeek)) {
                             
-                            ForEach(viewModel.days(forWeek: week), id: \.self) { date in
-                                if viewModel.calendar.isDate(date, equalTo: week, toGranularity: .month) {
+                            ForEach(viewModel.days(forWeek: monthOrWeek), id: \.self) { date in
+                                if viewModel.calendar.isDate(date, equalTo: monthOrWeek, toGranularity: .month) {
                                     content(date).id(date)
                                         .background(
                                             GeometryReader(content: { (proxy: GeometryProxy) in
@@ -87,7 +87,7 @@ public struct DateGrid<DateView>: View where DateView: View {
                         .onPreferenceChange(MyPreferenceKey.self, perform: { value in
                             calculatedCellSize = value.size
                         })
-                        .tag(week)
+                        .tag(monthOrWeek)
                     }
                 }
             }
