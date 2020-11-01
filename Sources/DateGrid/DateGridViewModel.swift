@@ -36,9 +36,18 @@ class DateGridViewModel {
         calendar.generateDates( inside: interval,matching: DateComponents(hour: 0, minute: 0, second:0, weekday: 2) )
     }
     
-    func days(for month: Date) -> [Date] {
+    func days(for monthOrWeek: Date) -> [Date] {
+        switch mode {
+        case .month(estimateHeight: _):
+           return days(forMonth: monthOrWeek)
+        case .week(estimateHeight: _):
+           return days(forWeek: monthOrWeek)
+        }
+    }
+    
+    private func days(forMonth: Date) -> [Date] {
         guard
-            let monthInterval = calendar.dateInterval(of: .month, for: month),
+            let monthInterval = calendar.dateInterval(of: .month, for: forMonth),
             let monthFirstWeek = calendar.dateInterval(of: .weekOfMonth, for: monthInterval.start),
             let monthLastWeek = calendar.dateInterval(of: .weekOfMonth, for: monthInterval.end)
         else { return [] }
@@ -47,7 +56,7 @@ class DateGridViewModel {
     }
     
     //fixme: change method signature to match aove
-    func days(forWeek: Date) -> [Date] {
+    private func days(forWeek: Date) -> [Date] {
         guard
             let weekInterval = calendar.dateInterval(of: .weekOfMonth, for: forWeek)
         else { return [] }

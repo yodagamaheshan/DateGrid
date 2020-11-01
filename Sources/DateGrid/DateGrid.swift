@@ -70,7 +70,7 @@ public struct DateGrid<DateView>: View where DateView: View {
                         
                         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: numberOfDayasInAWeek)) {
                             
-                            ForEach(viewModel.days(forWeek: monthOrWeek), id: \.self) { date in
+                            ForEach(viewModel.days(for: monthOrWeek), id: \.self) { date in
                                 if viewModel.calendar.isDate(date, equalTo: monthOrWeek, toGranularity: .month) {
                                     content(date).id(date)
                                         .background(
