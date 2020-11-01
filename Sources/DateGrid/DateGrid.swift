@@ -28,47 +28,14 @@ public struct DateGrid<DateView>: View where DateView: View {
     public var body: some View {
         
         Group {
-            if case .month( _) = viewModel.mode {
+            
+            TabView(selection: $selectedMonth) {
                 
-                TabView(selection: $selectedMonth) {
+                ForEach(viewModel.monthsOrWeeks, id: \.self) { monthOrWeek in
                     
-                    ForEach(viewModel.monthsOrWeeks, id: \.self) { monthOrWeek in
+                    VStack {
                         
-                        VStack {
-                            
-                            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: numberOfDayasInAWeek), spacing: 0) {
-                                
-                                ForEach(viewModel.days(for: monthOrWeek), id: \.self) { date in
-                                    if viewModel.calendar.isDate(date, equalTo: monthOrWeek, toGranularity: .month) {
-                                        content(date).id(date)
-                                            .background(
-                                                GeometryReader(content: { (proxy: GeometryProxy) in
-                                                    Color.clear
-                                                        .preference(key: MyPreferenceKey.self, value: MyPreferenceData(size: proxy.size))
-                                                }))
-                                        
-                                    } else {
-                                        content(date).hidden()
-                                    }
-                                }
-                            }
-                            .onPreferenceChange(MyPreferenceKey.self, perform: { value in
-                                calculatedCellSize = value.size
-                            })
-                            .tag(monthOrWeek)
-                            //Tab view frame alignment to .Top didnt work dtz y
-                            Spacer()
-                        }
-                    }
-                }
-                
-            } else {
-                
-                TabView(selection: $selectedMonth) {
-                    
-                    ForEach(viewModel.monthsOrWeeks, id: \.self) { monthOrWeek in
-                        
-                        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: numberOfDayasInAWeek)) {
+                        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: numberOfDayasInAWeek), spacing: 0) {
                             
                             ForEach(viewModel.days(for: monthOrWeek), id: \.self) { date in
                                 if viewModel.calendar.isDate(date, equalTo: monthOrWeek, toGranularity: .month) {
@@ -78,9 +45,9 @@ public struct DateGrid<DateView>: View where DateView: View {
                                                 Color.clear
                                                     .preference(key: MyPreferenceKey.self, value: MyPreferenceData(size: proxy.size))
                                             }))
+                                    
                                 } else {
-                                    content(date)
-                                        .opacity(0.5)
+                                    content(date).hidden()
                                 }
                             }
                         }
@@ -88,6 +55,8 @@ public struct DateGrid<DateView>: View where DateView: View {
                             calculatedCellSize = value.size
                         })
                         .tag(monthOrWeek)
+                        //Tab view frame alignment to .Top didnt work dtz y
+                        Spacer()
                     }
                 }
             }
