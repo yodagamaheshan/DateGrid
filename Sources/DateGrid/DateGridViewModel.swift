@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class DateGridViewModel {
+class DateGridViewModel: ObservableObject {
     //Fixme: change var names "mode"
     init(interval: DateInterval, mode: CalenderMode) {
         self.interval = interval

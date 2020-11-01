@@ -20,6 +20,7 @@ public struct DateGrid<DateView>: View where DateView: View {
         self.content = content
     }
     
+    //TODO: make Date generator class
     var viewModel: DateGridViewModel
     let content: (Date) -> DateView
     @Binding var selectedMonth: Date
@@ -29,34 +30,7 @@ public struct DateGrid<DateView>: View where DateView: View {
         
         TabView(selection: $selectedMonth) {
             
-            ForEach(viewModel.monthsOrWeeks, id: \.self) { monthOrWeek in
-                
-                VStack {
-                    
-                    LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: numberOfDayasInAWeek), spacing: 0) {
-                        
-                        ForEach(viewModel.days(for: monthOrWeek), id: \.self) { date in
-                            if viewModel.calendar.isDate(date, equalTo: monthOrWeek, toGranularity: .month) {
-                                content(date).id(date)
-                                    .background(
-                                        GeometryReader(content: { (proxy: GeometryProxy) in
-                                            Color.clear
-                                                .preference(key: MyPreferenceKey.self, value: MyPreferenceData(size: proxy.size))
-                                        }))
-                                
-                            } else {
-                                content(date).hidden()
-                            }
-                        }
-                    }
-                    .onPreferenceChange(MyPreferenceKey.self, perform: { value in
-                        calculatedCellSize = value.size
-                    })
-                    .tag(monthOrWeek)
-                    //Tab view frame alignment to .Top didnt work dtz y
-                    Spacer()
-                }
-            }
+            MonthsOrWeeks(viewModel: viewModel, calculatedCellSize: $calculatedCellSize, content: content)
         }
         .frame(height: tabViewHeight, alignment: .center)
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
@@ -67,10 +41,6 @@ public struct DateGrid<DateView>: View where DateView: View {
     private var tabViewHeight: CGFloat {
         let calculatedTabViewHeightByCalculatedCellHeight = viewModel.mode.calculatedheight(calculatedCellSize.height)
         return max(viewModel.mode.estimateHeight, calculatedTabViewHeightByCalculatedCellHeight)
-    }
-    
-    var weekContentHeight: CGFloat {
-        return max(viewModel.mode.estimateHeight, calculatedCellSize.height * 1)
     }
 }
 
@@ -109,4 +79,44 @@ fileprivate struct MyPreferenceKey: PreferenceKey {
 fileprivate struct MyPreferenceData: Equatable {
     let size: CGSize
     //you can give any name to this variable as usual.
+}
+
+struct MonthsOrWeeks<DateView>: View where DateView: View {
+    let viewModel: DateGridViewModel
+    @Binding var calculatedCellSize: CGSize
+    let content: (Date) -> DateView
+    
+    var body: some View {
+        ForEach(viewModel.monthsOrWeeks, id: \.self) { monthOrWeek in
+            
+            VStack {
+                
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: numberOfDayasInAWeek), spacing: 0) {
+                    
+                    ForEach(viewModel.days(for: monthOrWeek), id: \.self) { date in
+                        if viewModel.calendar.isDate(date, equalTo: monthOrWeek, toGranularity: .month) {
+                            content(date).id(date)
+                                .background(
+                                    GeometryReader(content: { (proxy: GeometryProxy) in
+                                        Color.clear
+                                            .preference(key: MyPreferenceKey.self, value: MyPreferenceData(size: proxy.size))
+                                    }))
+                            
+                        } else {
+                            content(date).hidden()
+                        }
+                    }
+                }
+                .onPreferenceChange(MyPreferenceKey.self, perform: { value in
+                    calculatedCellSize = value.size
+                })
+                .tag(monthOrWeek)
+                //Tab view frame alignment to .Top didnt work dtz y
+                Spacer()
+            }
+        }
+    }
+    
+    //MARK: constant and supportive methods
+    private let numberOfDayasInAWeek = 7
 }
