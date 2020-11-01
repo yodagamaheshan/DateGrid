@@ -18,11 +18,21 @@ class DateGridViewModel {
     let interval: DateInterval
     var mode: CalenderMode
     
-    var months: [Date] {
+    //total dates belong to month(indate+ outDate) or week
+    var mainDatesOfAPage: [Date] {
+        switch mode {
+        case .month(estimateHeight: _):
+           return months
+        case .week(estimateHeight: _):
+           return weeks
+        }
+    }
+    
+    private var months: [Date] {
         calendar.generateDates( inside: interval,matching: DateComponents(day: 1, hour: 0, minute: 0, second:0))
     }
     
-    var weeks: [Date] {
+    private var weeks: [Date] {
         calendar.generateDates( inside: interval,matching: DateComponents(hour: 0, minute: 0, second:0, weekday: 2) )
     }
     

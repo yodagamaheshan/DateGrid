@@ -32,7 +32,7 @@ public struct DateGrid<DateView>: View where DateView: View {
                 
                 TabView(selection: $selectedMonth) {
                     
-                    ForEach(viewModel.months, id: \.self) { month in
+                    ForEach(viewModel.mainDatesOfAPage, id: \.self) { month in
                         
                         VStack {
                             
@@ -66,7 +66,7 @@ public struct DateGrid<DateView>: View where DateView: View {
                 
                 TabView(selection: $selectedMonth) {
                     
-                    ForEach(viewModel.weeks, id: \.self) { week in
+                    ForEach(viewModel.mainDatesOfAPage, id: \.self) { week in
                         
                         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: numberOfDayasInAWeek)) {
                             
