@@ -21,8 +21,8 @@ public struct DateGrid<DateView>: View where DateView: View {
     }
     
     //TODO: make Date generator class
-    var viewModel: DateGridViewModel
-    let content: (Date) -> DateView
+    private let viewModel: DateGridViewModel
+    private let content: (Date) -> DateView
     @Binding var selectedMonth: Date
     @State private var calculatedCellSize: CGSize = .init(width: 1, height: 1)
     
