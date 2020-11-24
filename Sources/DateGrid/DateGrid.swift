@@ -94,6 +94,7 @@ struct MonthsOrWeeks<DateView>: View where DateView: View {
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: numberOfDayasInAWeek), spacing: 0) {
                     
                     ForEach(viewModel.days(for: monthOrWeek), id: \.self) { date in
+                        let dateGridDate = DateGridDate(date: date, currentMonth: monthOrWeek)
                         if viewModel.calendar.isDate(date, equalTo: monthOrWeek, toGranularity: .month) {
                             content(date).id(date)
                                 .background(
