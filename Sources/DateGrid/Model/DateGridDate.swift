@@ -13,7 +13,7 @@ struct DateGridDate {
         self.currentMonth = currentMonth
     }
     
-    let date: Date
+    public let date: Date
     private var currentMonth: Date
     var dateType: DateGridDateType {
         getDateGridDateType(for: date, of: currentMonth)
