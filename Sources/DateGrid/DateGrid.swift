@@ -24,24 +24,18 @@ public struct DateGrid<DateView>: View where DateView: View {
     private let viewModel: DateGridViewModel
     private let content: (DateGridDate) -> DateView
     @Binding var selectedMonth: Date
-    @State private var calculatedCellSize: CGSize = .init(width: 1, height: 1)
     
     public var body: some View {
         
         TabView(selection: $selectedMonth) {
             
-            MonthsOrWeeks(viewModel: viewModel, calculatedCellSize: $calculatedCellSize, content: content)
+            MonthsOrWeeks(viewModel: viewModel, content: content)
         }
-        .frame(height: tabViewHeight, alignment: .center)
+        .frame(height: viewModel.mode.estimateHeight, alignment: .center)
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
     }
     
     //MARK: constant and supportive methods
-    private let numberOfDayasInAWeek = 7
-    private var tabViewHeight: CGFloat {
-        let calculatedTabViewHeightByCalculatedCellHeight = viewModel.mode.calculatedheight(calculatedCellSize.height)
-        return max(viewModel.mode.estimateHeight, calculatedTabViewHeightByCalculatedCellHeight)
-    }
 }
 
 struct CalendarView_Previews: PreviewProvider {
@@ -62,28 +56,8 @@ struct CalendarView_Previews: PreviewProvider {
     }
 }
 
-
-//Key
-fileprivate struct MyPreferenceKey: PreferenceKey {
-    static var defaultValue: MyPreferenceData = MyPreferenceData(size: CGSize.zero)
-    
-    
-    static func reduce(value: inout MyPreferenceData, nextValue: () -> MyPreferenceData) {
-        value = nextValue()
-    }
-    
-    typealias Value = MyPreferenceData
-}
-
-//Value
-fileprivate struct MyPreferenceData: Equatable {
-    let size: CGSize
-    //you can give any name to this variable as usual.
-}
-
 struct MonthsOrWeeks<DateView>: View where DateView: View {
     let viewModel: DateGridViewModel
-    @Binding var calculatedCellSize: CGSize
     let content: (DateGridDate) -> DateView
     
     var body: some View {
@@ -96,21 +70,15 @@ struct MonthsOrWeeks<DateView>: View where DateView: View {
                     ForEach(viewModel.days(for: monthOrWeek), id: \.self) { date in
                         let dateGridDate = DateGridDate(date: date, currentMonth: monthOrWeek)
                         if viewModel.calendar.isDate(date, equalTo: monthOrWeek, toGranularity: .month) {
-                            content(dateGridDate).id(date)
-                                .background(
-                                    GeometryReader(content: { (proxy: GeometryProxy) in
-                                        Color.clear
-                                            .preference(key: MyPreferenceKey.self, value: MyPreferenceData(size: proxy.size))
-                                    }))
+                            content(dateGridDate)
+                                .id(date)
                             
                         } else {
-                            content(dateGridDate).hidden()
+                            content(dateGridDate)
+                                .hidden()
                         }
                     }
                 }
-                .onPreferenceChange(MyPreferenceKey.self, perform: { value in
-                    calculatedCellSize = value.size
-                })
                 .tag(monthOrWeek)
                 //Tab view frame alignment to .Top didnt work dtz y
                 Spacer()
