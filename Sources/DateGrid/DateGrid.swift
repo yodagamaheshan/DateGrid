@@ -14,7 +14,7 @@ public struct DateGrid<DateView>: View where DateView: View {
     ///   - interval:
     ///   - selectedMonth: date relevent to showing month, then you can extract the componnets
     ///   - content:
-    public init(interval: DateInterval, selectedMonth: Binding<Date>, mode: CalenderMode, @ViewBuilder content: @escaping (Date) -> DateView) {
+    public init(interval: DateInterval, selectedMonth: Binding<Date>, mode: CalenderMode, @ViewBuilder content: @escaping (DateGridDate) -> DateView) {
         self.viewModel = .init(interval: interval, mode: mode)
         self._selectedMonth = selectedMonth
         self.content = content
@@ -22,7 +22,7 @@ public struct DateGrid<DateView>: View where DateView: View {
     
     //TODO: make Date generator class
     private let viewModel: DateGridViewModel
-    private let content: (Date) -> DateView
+    private let content: (DateGridDate) -> DateView
     @Binding var selectedMonth: Date
     @State private var calculatedCellSize: CGSize = .init(width: 1, height: 1)
     
@@ -53,9 +53,9 @@ struct CalendarView_Previews: PreviewProvider {
             Text(selectedMonthDate.description)
             WeekDaySymbols()
             
-            DateGrid(interval: .init(start: Date.getDate(from: "2020 01 11")!, end: Date.getDate(from: "2020 12 11")!), selectedMonth: $selectedMonthDate, mode: .month(estimateHeight: 400)) { date in
+            DateGrid(interval: .init(start: Date.getDate(from: "2020 01 11")!, end: Date.getDate(from: "2020 12 11")!), selectedMonth: $selectedMonthDate, mode: .month(estimateHeight: 400)) { dateGridDate in
                 
-                NoramalDayCell(date: date)
+                NoramalDayCell(date: dateGridDate.date)
             }
         }
         
@@ -84,7 +84,7 @@ fileprivate struct MyPreferenceData: Equatable {
 struct MonthsOrWeeks<DateView>: View where DateView: View {
     let viewModel: DateGridViewModel
     @Binding var calculatedCellSize: CGSize
-    let content: (Date) -> DateView
+    let content: (DateGridDate) -> DateView
     
     var body: some View {
         ForEach(viewModel.monthsOrWeeks, id: \.self) { monthOrWeek in
@@ -96,7 +96,7 @@ struct MonthsOrWeeks<DateView>: View where DateView: View {
                     ForEach(viewModel.days(for: monthOrWeek), id: \.self) { date in
                         let dateGridDate = DateGridDate(date: date, currentMonth: monthOrWeek)
                         if viewModel.calendar.isDate(date, equalTo: monthOrWeek, toGranularity: .month) {
-                            content(date).id(date)
+                            content(dateGridDate).id(date)
                                 .background(
                                     GeometryReader(content: { (proxy: GeometryProxy) in
                                         Color.clear
@@ -104,7 +104,7 @@ struct MonthsOrWeeks<DateView>: View where DateView: View {
                                     }))
                             
                         } else {
-                            content(date).hidden()
+                            content(dateGridDate).hidden()
                         }
                     }
                 }

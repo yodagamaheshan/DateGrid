@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DateGridDate {
+public struct DateGridDate {
     init(date: Date, currentMonth: Date) {
         self.date = date
         self.currentMonth = currentMonth
