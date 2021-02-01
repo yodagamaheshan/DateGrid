@@ -18,15 +18,14 @@ From Xcode 11, you can use Swift Package Manager to add Kingfisher to your proje
 ## Usage
 
 ```swift
-DateGrid(interval: dateInterval , selectedMonth: $selectedMonthDate, mode: .month(estimateHeight: 400)) { date in
+DateGrid(interval: dateInterval , selectedMonth: $selectedMonthDate, mode: mode) { dateGridDate in
                 
-        Text(date.day)
-                .padding(8)
-                .background(Color.blue)
-                .cornerRadius(8)
-                .padding([.bottom], 10)
-                
- }
+                Text(dateGridDate.date.day)
+                    .padding(8)
+                    .background(Color.blue)
+                    .cornerRadius(8)
+                    .padding([.bottom], 10)
+            }
 ```
 
 [Sample project](https://github.com/yodagamaheshan/FlexibleCalender-demo.git)
