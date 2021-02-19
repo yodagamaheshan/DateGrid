@@ -1,5 +1,5 @@
 //
-//  CalenderModes.swift
+//  CalendarModes.swift
 //  FlexibleCalender
 //
 //  Created by Heshan Yodagama on 10/22/20.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public enum CalenderMode {
+public enum CalendarMode {
     case month(estimateHeight: CGFloat)
     case week(estimateHeight: CGFloat)
     
@@ -20,7 +20,7 @@ public enum CalenderMode {
         }
     }
     
-    func calculatedheight(_ cellHeight: CGFloat) -> CGFloat {
+    func calculatedHeight(_ cellHeight: CGFloat) -> CGFloat {
         switch self {
         case .month(estimateHeight: _):
             return cellHeight * 7

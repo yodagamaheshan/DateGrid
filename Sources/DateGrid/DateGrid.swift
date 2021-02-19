@@ -14,7 +14,7 @@ public struct DateGrid<DateView>: View where DateView: View {
     ///   - interval:
     ///   - selectedMonth: date relevent to showing month, then you can extract the componnets
     ///   - content:
-    public init(interval: DateInterval, selectedMonth: Binding<Date>, mode: CalenderMode, @ViewBuilder content: @escaping (DateGridDate) -> DateView) {
+    public init(interval: DateInterval, selectedMonth: Binding<Date>, mode: CalendarMode, @ViewBuilder content: @escaping (DateGridDate) -> DateView) {
         self.viewModel = .init(interval: interval, mode: mode)
         self._selectedMonth = selectedMonth
         self.content = content
