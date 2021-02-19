@@ -1,5 +1,5 @@
 //
-//  FlexibleCalenderViewModel.swift
+//  FlexibleCalendarViewModel.swift
 //  FlexibleCalender
 //
 //  Created by Heshan Yodagama on 10/25/20.
@@ -8,7 +8,7 @@
 import SwiftUI
 
 class DateGridViewModel: ObservableObject {
-    //Fixme: change var names "mode"
+    //FIXME: change var names "mode"
     init(interval: DateInterval, mode: CalendarMode) {
         self.interval = interval
         self.mode = mode
@@ -18,7 +18,7 @@ class DateGridViewModel: ObservableObject {
     let interval: DateInterval
     var mode: CalendarMode
     
-    //total dates belong to month(indate+ outDate) or week
+    //total dates belong to month(inDate+ outDate) or week
     var monthsOrWeeks: [Date] {
         switch mode {
         case .month(estimateHeight: _):
@@ -55,7 +55,7 @@ class DateGridViewModel: ObservableObject {
         )
     }
     
-    //fixme: change method signature to match aove
+    //FIXME: change method signature to match above
     private func days(forWeek: Date) -> [Date] {
         guard
             let weekInterval = calendar.dateInterval(of: .weekOfMonth, for: forWeek)
