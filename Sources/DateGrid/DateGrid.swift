@@ -1,5 +1,5 @@
 //
-//  FlexibleCalenderView.swift
+//  FlexibleCalendarView.swift
 //  FlexibleCalender
 //
 //  Created by Heshan Yodagama on 10/22/20.
@@ -12,7 +12,7 @@ public struct DateGrid<DateView>: View where DateView: View {
     /// DateStack view
     /// - Parameters:
     ///   - interval:
-    ///   - selectedMonth: date relevent to showing month, then you can extract the componnets
+    ///   - selectedMonth: date relevant to showing month, then you can extract the components
     ///   - content:
     public init(interval: DateInterval, selectedMonth: Binding<Date>, mode: CalendarMode, @ViewBuilder content: @escaping (DateGridDate) -> DateView) {
         self.viewModel = .init(interval: interval, mode: mode)
@@ -49,7 +49,7 @@ struct CalendarView_Previews: PreviewProvider {
             
             DateGrid(interval: .init(start: Date.getDate(from: "2020 01 11")!, end: Date.getDate(from: "2020 12 11")!), selectedMonth: $selectedMonthDate, mode: .month(estimateHeight: 400)) { dateGridDate in
                 
-                NoramalDayCell(date: dateGridDate.date)
+                NormalDayCell(date: dateGridDate.date)
             }
         }
         
@@ -65,7 +65,7 @@ struct MonthsOrWeeks<DateView>: View where DateView: View {
             
             VStack {
                 
-                LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: numberOfDayasInAWeek), spacing: 0) {
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: numberOfDaysInAWeek), spacing: 0) {
                     
                     ForEach(viewModel.days(for: monthOrWeek), id: \.self) { date in
                         let dateGridDate = DateGridDate(date: date, currentMonth: monthOrWeek)
@@ -80,12 +80,12 @@ struct MonthsOrWeeks<DateView>: View where DateView: View {
                     }
                 }
                 .tag(monthOrWeek)
-                //Tab view frame alignment to .Top didnt work dtz y
+                //Tab view frame alignment to .Top didn't work dtz y
                 Spacer()
             }
         }
     }
     
     //MARK: constant and supportive methods
-    private let numberOfDayasInAWeek = 7
+    private let numberOfDaysInAWeek = 7
 }

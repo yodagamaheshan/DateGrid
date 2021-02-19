@@ -1,5 +1,5 @@
 //
-//  NoramalDayCell.swift
+//  NormalDayCell.swift
 //  FlexibleCalender
 //
 //  Created by Heshan Yodagama on 10/30/20.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public struct NoramalDayCell: View {
+public struct NormalDayCell: View {
     public init(date: Date) {
         self.date = date
     }
@@ -22,9 +22,9 @@ public struct NoramalDayCell: View {
     }
 }
 
-struct NoramalDayCell_Previews: PreviewProvider {
+struct NormalDayCell_Previews: PreviewProvider {
     static var previews: some View {
-        NoramalDayCell(date: Date())
+        NormalDayCell(date: Date())
     }
 }
 
