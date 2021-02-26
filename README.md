@@ -31,6 +31,6 @@ DateGrid(interval: dateInterval , selectedMonth: $selectedMonthDate, mode: mode)
 
 [Sample project](https://github.com/yodagamaheshan/FlexibleCalender-demo.git)
 
-<p> <img src="ScreenShots/iPhone_screenShot.png" width="200"/> 
+<p> <img src="ScreenShots/iPhone_screenShot.png" width="200"/> <img src="ScreenShots/iPhone_weekMode.png" width="200"/> 
     
 </p>
