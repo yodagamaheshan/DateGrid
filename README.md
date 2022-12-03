@@ -9,7 +9,7 @@
 Description not available.
 
 ## Installation
-From Xcode 11, you can use Swift Package Manager to add Kingfisher to your project.
+From Xcode 11, you can use Swift Package Manager to add DateGrid to your project.
 
 1. Select File > Swift Packages > Add Package Dependency. Enter ``` https://github.com/yodagamaheshan/DateGrid.git```  in the "Choose Package Repository" dialog.
 1. In the next page, specify the version resolving rule.
